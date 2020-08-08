@@ -3,18 +3,22 @@ services:
   - docker
 
 before_install:
-  - docker build -t apopow/react-test -f ./client/Dockerfile.dev ./client
+  - docker build -t anpopow/react-test -f ./client/Dockerfile.dev ./client
 
 script:
-  - docker run -e CI=true apopow/react-test npm test -- --coverage
+  - docker run -e CI=true anpopow/react-test npm test -- --coverage
 
 after_success:
-  - docker build -t apopow/multi-client ./client
-  - docker build -t apopow/multi-nginx ./nginx
-  - docker build -t apopow/multi-server ./server
-  - docker build -t apopow/multi-worker ./worker
+  - docker build -t anpopow/multi-client ./client
+  - docker build -t anpopow/multi-nginx ./nginx
+  - docker build -t anpopow/multi-server ./server
+  - docker build -t anpopow/multi-worker ./worker
   - echo "$DOCKER_PASSWORD" | docker login -u $DOCKER_ID --password-stdin
-  - docker push apopow/multi-client
-  - docker push apopow/multi-nginx
-  - docker push apopow/multi-server
-  - docker push apopow/multi-worker
+  - docker push anpopow/multi-client
+  - docker push anpopow/multi-nginx
+  - docker push anpopow/multi-server
+  - docker push anpopow/multi-worker
+
+branches:
+  only:
+  - master
